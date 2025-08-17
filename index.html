@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Downloads</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* styles/galaxy-v2.css */
+        :root {
+          --space-dark: #050a20;
+          --space-deep: #0f1a3a;
+          --star-primary: #ffffff;
+          --star-secondary: #4fc3f7;
+          --nebula-blue: #3a86ff;
+          --nebula-purple: #8338ec;
+          --cosmic-text: #e2f3ff;
+        }
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: 'Exo 2', sans-serif;
+          color: var(--cosmic-text);
+          overflow-x: hidden;
+          min-height: 100vh;
+          background: radial-gradient(ellipse at bottom, var(--space-dark) 0%, #000000 100%);
+          padding: 2rem;
+        }
+
+        /* Header */
+        .cosmic-header {
+          text-align: center;
+          margin-bottom: 3rem;
+        }
+
+        .cosmic-title {
+          font-size: 3rem;
+          background: linear-gradient(to right, var(--nebula-blue), var(--nebula-purple));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          margin-bottom: 1rem;
+          text-shadow: 0 0 10px rgba(58, 134, 255, 0.5);
+        }
+
+        /* Container Principal */
+        .cosmic-container {
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        /* Categoria */
+        .cosmic-category {
+          background: rgba(15, 26, 58, 0.3);
+          backdrop-filter: blur(8px);
+          border-radius: 20px;
+          padding: 2rem;
+          margin-bottom: 2rem;
+          border: 1px solid rgba(58, 134, 255, 0.2);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Título da Categoria */
+        .category-title {
+          font-size: 1.8rem;
+          margin-bottom: 1.5rem;
+          color: var(--cosmic-text);
+          position: relative;
+          padding-bottom: 0.5rem;
+        }
+
+        .category-title::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: linear-gradient(90deg, var(--nebula-blue), transparent);
+          border-radius: 2px;
+        }
+
+        /* Lista de Itens */
+        .cosmic-items {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 1.5rem;
+        }
+
+        /* Item de Download */
+        .cosmic-item {
+          background: rgba(15, 26, 58, 0.4);
+          backdrop-filter: blur(8px);
+          border-radius: 12px;
+          padding: 1.5rem;
+          border: 1px solid rgba(58, 134, 255, 0.3);
+          transition: all 0.3s ease;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .cosmic-item:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(58, 134, 255, 0.2);
+          background: rgba(15, 26, 58, 0.6);
+        }
+
+        .item-title {
+          font-size: 1.2rem;
+          margin-bottom: 1rem;
+          color: var(--star-primary);
+          flex-grow: 1;
+        }
+
+        .download-btn {
+          display: inline-block;
+          padding: 0.7rem 1.2rem;
+          background: linear-gradient(135deg, var(--nebula-blue), var(--nebula-purple));
+          color: white;
+          border-radius: 6px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          text-align: center;
+          align-self: flex-start;
+        }
+
+        .download-btn:hover {
+          transform: scale(1.05);
+          box-shadow: 0 0 15px rgba(58, 134, 255, 0.5);
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+          body {
+            padding: 1rem;
+          }
+          
+          .cosmic-title {
+            font-size: 2rem;
+          }
+          
+          .cosmic-items {
+            grid-template-columns: 1fr;
+          }
+          
+          .cosmic-category {
+            padding: 1.5rem;
+          }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-header">
+        <h1 class="cosmic-title">Cosmic Downloads</h1>
+    </div>
+
+    <div class="cosmic-container">
+        <!-- Categoria: Streaming e Captura -->
+        <div class="cosmic-category">
+            <h2 class="category-title">Streaming e Captura</h2>
+            <div class="cosmic-items">
+                <div class="cosmic-item">
+                    <h3 class="item-title">OBS Studio</h3>
+                    <a href="https://cdn-fastly.obsproject.com/downloads/OBS-Studio-31.0.4-Windows-Installer.exe" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">Iriun Webcam</h3>
+                    <a href="https://1758658189.rsc.cdn77.org/IriunWebcam-2.8.10.exe" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">SCRCPY</h3>
+                    <a href="https://github.com/Genymobile/scrcpy/releases/download/v3.3.1/scrcpy-win64-v3.3.1.zip" class="download-btn">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categoria: Jogos -->
+        <div class="cosmic-category">
+            <h2 class="category-title">Jogos</h2>
+            <div class="cosmic-items">
+                <div class="cosmic-item">
+                    <h3 class="item-title">Valorant</h3>
+                    <a href="https://valorant.secure.dyn.riotcdn.net/channels/public/x/installer/current/live.live.ap.exe" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">Clone Hero</h3>
+                    <a href="https://github.com/clonehero-game/releases/releases/download/V1.0.0.4080/CloneHero-win64.exe" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">Epic Games Launcher</h3>
+                    <a href="https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi" class="download-btn">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categoria: Utilitários -->
+        <div class="cosmic-category">
+            <h2 class="category-title">Utilitários</h2>
+            <div class="cosmic-items">
+                <div class="cosmic-item">
+                    <h3 class="item-title">WinRAR</h3>
+                    <a href="https://www.win-rar.com/postdownload.html?&L=0" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">BitTorrent</h3>
+                    <a href="https://www.bittorrent.com/pt-br/downloads/complete/" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">Logitech G Hub</h3>
+                    <a href="https://download01.logi.com/web/ftp/pub/techsupport/gaming/lghub_installer.exe" class="download-btn">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categoria: Drivers e GPU -->
+        <div class="cosmic-category">
+            <h2 class="category-title">Drivers e GPU</h2>
+            <div class="cosmic-items">
+                <div class="cosmic-item">
+                    <h3 class="item-title">NVIDIA App</h3>
+                    <a href="https://us.download.nvidia.com/nvapp/client/11.0.4.159/NVIDIA_app_v11.0.4.159.exe" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">Driver GeForce 3070</h3>
+                    <a href="https://us.download.nvidia.com/Windows/576.88/576.88-desktop-win10-win11-64bit-international-dch-whql.exe" class="download-btn">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categoria: Utilitários Steam -->
+        <div class="cosmic-category">
+            <h2 class="category-title">Utilitários Steam</h2>
+            <div class="cosmic-items">
+                <div class="cosmic-item">
+                    <h3 class="item-title">Idle Master Extended</h3>
+                    <a href="https://github.com/JonasNilson/idle_master_extended/releases/download/v1.10.0/idle_master_extended_v1.10.0.zip" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">Steam</h3>
+                    <a href="https://cdn.fastly.steamstatic.com/client/installer/SteamSetup.exe" class="download-btn">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categoria: VRChat e VR -->
+        <div class="cosmic-category">
+            <h2 class="category-title">VRChat e Realidade Virtual</h2>
+            <div class="cosmic-items">
+                <div class="cosmic-item">
+                    <h3 class="item-title">VRChat Creator Companion</h3>
+                    <a href="https://vrchat.com/download/vcc" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">Unity 2022.3.22f1</h3>
+                    <a href="https://download.unity3d.com/download_unity/887be4894c44/Windows64EditorInstaller/UnitySetup64-2022.3.22f1.exe" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">OpenVR Advanced Settings</h3>
+                    <a href="https://github.com/OpenVR-Advanced-Settings/OpenVR-AdvancedSettings/releases/download/v3.4.1/OpenVR-AdvancedSettings-v3.4.1.exe" class="download-btn">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categoria: Booth VRM -->
+        <div class="cosmic-category">
+            <h2 class="category-title"><i class="fas fa-store category-icon"></i>Booth VRM</h2>
+            <div class="cosmic-items">
+                <div class="cosmic-item">
+                    <h3 class="item-title"><i class="fas fa-robot item-icon"></i>Modelo Anime VRM 1</h3>
+                    <p class="item-description">Avatar estilo anime com expressões faciais completas e texturas HD.</p>
+                    <a href="https://booth.pm/downloadables/4141652?_gl=1*nhu2zb*_ga*OTE5MTM0NDcuMTc1MjE5NzIzMQ..*_ga_RWT2QKJLDC*czE3NTU0MDEyNTQkbzQkZzEkdDE3NTU0MDEzOTUkajQzJGwwJGgw" class="download-btn"><i class="fas fa-download"></i> Download</a>
+                    <div class="file-info">
+                        <span class="file-size"><i class="fas fa-database"></i> 45 MB</span>
+                        <span class="file-type"><i class="fas fa-file-archive"></i> .zip</span>
+                    </div>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title"><i class="fas fa-user-astronaut item-icon"></i>Modelo Futurista VRM 2</h3>
+                    <p class="item-description">Avatar com design cyberpunk e efeitos de shader especiais.</p>
+                    <a href="https://booth.pm/downloadables/3527070?_gl=1*1t8ztk8*_ga*OTE5MTM0NDcuMTc1MjE5NzIzMQ..*_ga_RWT2QKJLDC*czE3NTU0MDEyNTQkbzQkZzEkdDE3NTU0MDE0NTYkajYwJGwwJGgw" class="download-btn"><i class="fas fa-download"></i> Download</a>
+                    <div class="file-info">
+                        <span class="file-size"><i class="fas fa-database"></i> 68 MB</span>
+                        <span class="file-type"><i class="fas fa-file-archive"></i> .zip</span>
+                    </div>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title"><i class="fas fa-cat item-icon"></i>Modelo Kemono VRM 3</h3>
+                    <p class="item-description">Avatar estilo kemono com orelhas e cauda animáveis.</p>
+                    <a href="https://booth.pm/downloadables/3231457?_gl=1*llh16f*_ga*OTE5MTM0NDcuMTc1MjE5NzIzMQ..*_ga_RWT2QKJLDC*czE3NTU0MDEyNTQkbzQkZzEkdDE3NTU0MDE3ODgkajM4JGwwJGgw" class="download-btn"><i class="fas fa-download"></i> Download</a>
+                    <div class="file-info">
+                        <span class="file-size"><i class="fas fa-database"></i> 52 MB</span>
+                        <span class="file-type"><i class="fas fa-file-archive"></i> .zip</span>
+                    </div>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title"><i class="fas fa-dragon item-icon"></i>Booth VRM Original</h3>
+                    <p class="item-description">Editor de modelos 3D VRM para criação de avatares personalizados.</p>
+                    <a href="https://booth.pm/downloadables/2412689?_gl=1*medy3c*_ga*OTg3OTAzMDEzLjE3NDk5MTg3NDA.*_ga_RWT2QKJLDC*czE3NTE4OTg4NDgkbzYkZzAkdTE3NTE4OTg4NTQkajU0JGwwJGgw" class="download-btn"><i class="fas fa-download"></i> Download</a>
+                    <div class="file-info">
+                        <span class="file-size"><i class="fas fa-database"></i> 120 MB</span>
+                        <span class="file-type"><i class="fas fa-file-excel"></i> .exe</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Categoria: Rastreamento Facial -->
+        <div class="cosmic-category">
+            <h2 class="category-title">Rastreamento Facial</h2>
+            <div class="cosmic-items">
+                <div class="cosmic-item">
+                    <h3 class="item-title">Opentrack</h3>
+                    <a href="https://github.com/opentrack/opentrack/releases/download/opentrack-2022.3.0/opentrack-2022.3.0-win32-setup.exe" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">AITrack</h3>
+                    <a href="https://github.com/AIRLegend/aitrack/releases/download/v0.7.1-alpha/aitrack-v0.7.1.zip" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">Project Babble</h3>
+                    <a href="https://github.com/Project-Babble/ProjectBabble/releases/download/v2.0.7/Project_Babble-Setup.2.0.7.exe" class="download-btn">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categoria: Comunicação -->
+        <div class="cosmic-category">
+            <h2 class="category-title">Comunicação</h2>
+            <div class="cosmic-items">
+                <div class="cosmic-item">
+                    <h3 class="item-title">Vencord</h3>
+                    <a href="https://github.com/Vencord/Installer/releases/latest/download/VencordInstaller.exe" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">Discord</h3>
+                    <a href="https://discord.com/api/downloads/distributions/app/installers/latest?channel=stable&platform=win&arch=x64" class="download-btn">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categoria: Navegadores -->
+        <div class="cosmic-category">
+            <h2 class="category-title">Navegadores</h2>
+            <div class="cosmic-items">
+                <div class="cosmic-item">
+                    <h3 class="item-title">Google Chrome</h3>
+                    <a href="https://www.google.com/intl/pt-BR/chrome/" class="download-btn">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categoria: Desenvolvimento -->
+        <div class="cosmic-category">
+            <h2 class="category-title">Desenvolvimento</h2>
+            <div class="cosmic-items">
+                <div class="cosmic-item">
+                    <h3 class="item-title">Visual Studio Code</h3>
+                    <a href="https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">Java</h3>
+                    <a href="https://javadl.oracle.com/webapps/download/AutoDL?xd_co_f=OTQxNGZiMTEtZWU0OS00ZjY5LWExOGQtNzA2ZDBiNDdlYTk4&BundleId=252322_68ce765258164726922591683c51982c" class="download-btn">Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <h3 class="item-title">Python 3.13.5</h3>
+                    <a href="https://www.python.org/ftp/python/3.13.5/python-3.13.5-amd64.exe" class="download-btn">Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
