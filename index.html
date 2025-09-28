@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmic Downloads</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* styles/galaxy-v2.css */
         :root {
           --space-dark: #050a20;
           --space-deep: #0f1a3a;
@@ -15,6 +15,10 @@
           --nebula-blue: #3a86ff;
           --nebula-purple: #8338ec;
           --cosmic-text: #e2f3ff;
+          --success: #4CAF50;
+          --warning: #FF9800;
+          --danger: #F44336;
+          --info: #2196F3;
         }
 
         * {
@@ -30,12 +34,37 @@
           min-height: 100vh;
           background: radial-gradient(ellipse at bottom, var(--space-dark) 0%, #000000 100%);
           padding: 2rem;
+          position: relative;
+        }
+
+        /* Efeito de estrelas */
+        .stars {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          pointer-events: none;
+        }
+
+        .star {
+          position: absolute;
+          background-color: white;
+          border-radius: 50%;
+          animation: twinkle 5s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+          0%, 100% { opacity: 0.2; }
+          50% { opacity: 1; }
         }
 
         /* Header */
         .cosmic-header {
           text-align: center;
           margin-bottom: 3rem;
+          position: relative;
         }
 
         .cosmic-title {
@@ -45,6 +74,45 @@
           -webkit-text-fill-color: transparent;
           margin-bottom: 1rem;
           text-shadow: 0 0 10px rgba(58, 134, 255, 0.5);
+        }
+
+        .cosmic-subtitle {
+          font-size: 1.2rem;
+          opacity: 0.8;
+          margin-bottom: 2rem;
+        }
+
+        /* Search Bar */
+        .search-container {
+          max-width: 600px;
+          margin: 0 auto 2rem;
+          position: relative;
+        }
+
+        .search-bar {
+          width: 100%;
+          padding: 1rem 1.5rem;
+          border-radius: 50px;
+          border: 1px solid rgba(58, 134, 255, 0.3);
+          background: rgba(15, 26, 58, 0.4);
+          color: var(--cosmic-text);
+          font-size: 1rem;
+          backdrop-filter: blur(8px);
+          transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+          outline: none;
+          box-shadow: 0 0 15px rgba(58, 134, 255, 0.5);
+          background: rgba(15, 26, 58, 0.6);
+        }
+
+        .search-icon {
+          position: absolute;
+          right: 20px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--nebula-blue);
         }
 
         /* Container Principal */
@@ -62,6 +130,11 @@
           margin-bottom: 2rem;
           border: 1px solid rgba(58, 134, 255, 0.2);
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          transition: all 0.3s ease;
+        }
+
+        .cosmic-category.hidden {
+          display: none;
         }
 
         /* Título da Categoria */
@@ -71,6 +144,13 @@
           color: var(--cosmic-text);
           position: relative;
           padding-bottom: 0.5rem;
+          display: flex;
+          align-items: center;
+        }
+
+        .category-title i {
+          margin-right: 10px;
+          color: var(--nebula-blue);
         }
 
         .category-title::after {
@@ -101,6 +181,7 @@
           transition: all 0.3s ease;
           display: flex;
           flex-direction: column;
+          position: relative;
         }
 
         .cosmic-item:hover {
@@ -109,15 +190,52 @@
           background: rgba(15, 26, 58, 0.6);
         }
 
+        .cosmic-item.hidden {
+          display: none;
+        }
+
         .item-title {
           font-size: 1.2rem;
           margin-bottom: 1rem;
           color: var(--star-primary);
           flex-grow: 1;
+          display: flex;
+          align-items: center;
+        }
+
+        .item-title i {
+          margin-right: 8px;
+          color: var(--nebula-blue);
+        }
+
+        .item-description {
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
+          opacity: 0.8;
+          flex-grow: 1;
+        }
+
+        .item-meta {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 1rem;
+          font-size: 0.85rem;
+        }
+
+        .item-version, .item-size {
+          display: flex;
+          align-items: center;
+        }
+
+        .item-version i, .item-size i {
+          margin-right: 5px;
+          color: var(--nebula-purple);
         }
 
         .download-btn {
-          display: inline-block;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           padding: 0.7rem 1.2rem;
           background: linear-gradient(135deg, var(--nebula-blue), var(--nebula-purple));
           color: white;
@@ -129,9 +247,104 @@
           align-self: flex-start;
         }
 
+        .download-btn i {
+          margin-right: 8px;
+        }
+
         .download-btn:hover {
           transform: scale(1.05);
           box-shadow: 0 0 15px rgba(58, 134, 255, 0.5);
+        }
+
+        .file-type-badge {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 0.7rem;
+          font-weight: bold;
+          text-transform: uppercase;
+          color: white;
+        }
+
+        .exe { background: var(--danger); }
+        .zip { background: var(--warning); }
+        .msi { background: var(--nebula-blue); }
+        .apk { background: var(--success); }
+
+        /* Recent Downloads */
+        .recent-downloads {
+          margin-bottom: 2rem;
+        }
+
+        .recent-items {
+          display: flex;
+          overflow-x: auto;
+          gap: 1rem;
+          padding: 1rem 0;
+        }
+
+        .recent-item {
+          min-width: 200px;
+          background: rgba(15, 26, 58, 0.4);
+          border-radius: 10px;
+          padding: 1rem;
+          display: flex;
+          align-items: center;
+          border: 1px solid rgba(58, 134, 255, 0.2);
+          transition: all 0.3s ease;
+        }
+
+        .recent-item:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 5px 15px rgba(58, 134, 255, 0.2);
+        }
+
+        .recent-item i {
+          font-size: 1.5rem;
+          margin-right: 10px;
+          color: var(--nebula-blue);
+        }
+
+        /* Footer */
+        .cosmic-footer {
+          text-align: center;
+          margin-top: 3rem;
+          padding-top: 2rem;
+          border-top: 1px solid rgba(58, 134, 255, 0.2);
+          font-size: 0.9rem;
+          opacity: 0.7;
+        }
+
+        /* Botão Voltar ao Topo */
+        .back-to-top {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background: linear-gradient(135deg, var(--nebula-blue), var(--nebula-purple));
+          color: white;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          font-size: 1.5rem;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+          opacity: 0;
+          transition: all 0.3s ease;
+          z-index: 1000;
+        }
+
+        .back-to-top.visible {
+          opacity: 1;
+        }
+
+        .back-to-top:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 20px rgba(58, 134, 255, 0.4);
         }
 
         /* Responsivo */
@@ -151,228 +364,698 @@
           .cosmic-category {
             padding: 1.5rem;
           }
+          
+          .recent-items {
+            flex-direction: column;
+          }
+          
+          .recent-item {
+            min-width: auto;
+          }
+        }
+
+        /* Contador de Downloads */
+        .download-count {
+          display: inline-block;
+          background: rgba(58, 134, 255, 0.2);
+          padding: 0.3rem 0.6rem;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          margin-left: 10px;
+        }
+
+        /* Notificação */
+        .notification {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: rgba(15, 26, 58, 0.9);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(58, 134, 255, 0.3);
+          border-radius: 10px;
+          padding: 1rem;
+          max-width: 300px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+          transform: translateX(150%);
+          transition: transform 0.3s ease;
+          z-index: 1000;
+        }
+
+        .notification.show {
+          transform: translateX(0);
+        }
+
+        .notification-content {
+          display: flex;
+          align-items: center;
+        }
+
+        .notification i {
+          font-size: 1.5rem;
+          margin-right: 10px;
+          color: var(--nebula-blue);
         }
     </style>
 </head>
 <body>
+    <!-- Efeito de estrelas -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Notificação -->
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <i class="fas fa-download"></i>
+            <div>
+                <h3>Download Iniciado</h3>
+                <p id="notification-text">Preparando download...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botão Voltar ao Topo -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
     <div class="cosmic-header">
         <h1 class="cosmic-title">Cosmic Downloads</h1>
+        <p class="cosmic-subtitle">Seu portal para downloads essenciais no universo digital</p>
+        
+        <div class="search-container">
+            <input type="text" class="search-bar" id="searchBar" placeholder="Buscar programas...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
     </div>
 
     <div class="cosmic-container">
+        <!-- Downloads Recentes -->
+        <div class="cosmic-category recent-downloads">
+            <h2 class="category-title"><i class="fas fa-history"></i>Downloads Recentes <span class="download-count">4</span></h2>
+            <div class="recent-items">
+                <div class="recent-item">
+                    <i class="fas fa-desktop"></i>
+                    <div>
+                        <h3>OBS Studio</h3>
+                        <p>Streaming e Captura</p>
+                    </div>
+                </div>
+                <div class="recent-item">
+                    <i class="fas fa-gamepad"></i>
+                    <div>
+                        <h3>Valorant</h3>
+                        <p>Jogos</p>
+                    </div>
+                </div>
+                <div class="recent-item">
+                    <i class="fas fa-archive"></i>
+                    <div>
+                        <h3>WinRAR</h3>
+                        <p>Utilitários</p>
+                    </div>
+                </div>
+                <div class="recent-item">
+                    <i class="fas fa-code"></i>
+                    <div>
+                        <h3>Visual Studio Code</h3>
+                        <p>Desenvolvimento</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Categoria: Streaming e Captura -->
         <div class="cosmic-category">
-            <h2 class="category-title">Streaming e Captura</h2>
+            <h2 class="category-title"><i class="fas fa-video"></i>Streaming e Captura <span class="download-count">3</span></h2>
             <div class="cosmic-items">
                 <div class="cosmic-item">
-                    <h3 class="item-title">OBS Studio</h3>
-                    <a href="https://cdn-fastly.obsproject.com/downloads/OBS-Studio-31.0.4-Windows-Installer.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-broadcast-tower"></i>OBS Studio</h3>
+                    <p class="item-description">Software de gravação e transmissão ao vivo</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v31.0.4</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 120 MB</span>
+                    </div>
+                    <a href="https://cdn-fastly.obsproject.com/downloads/OBS-Studio-31.0.4-Windows-Installer.exe" class="download-btn" data-name="OBS Studio"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">Iriun Webcam</h3>
-                    <a href="https://1758658189.rsc.cdn77.org/IriunWebcam-2.8.10.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-camera"></i>Iriun Webcam</h3>
+                    <p class="item-description">Use seu smartphone como webcam</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v2.8.10</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 15 MB</span>
+                    </div>
+                    <a href="https://1758658189.rsc.cdn77.org/IriunWebcam-2.8.10.exe" class="download-btn" data-name="Iriun Webcam"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">SCRCPY</h3>
-                    <a href="https://github.com/Genymobile/scrcpy/releases/download/v3.3.1/scrcpy-win64-v3.3.1.zip" class="download-btn">Download</a>
+                    <span class="file-type-badge zip">zip</span>
+                    <h3 class="item-title"><i class="fas fa-mobile-alt"></i>SCRCPY</h3>
+                    <p class="item-description">Exiba e controle dispositivos Android via USB</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v3.3.1</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 8 MB</span>
+                    </div>
+                    <a href="https://github.com/Genymobile/scrcpy/releases/download/v3.3.1/scrcpy-win64-v3.3.1.zip" class="download-btn" data-name="SCRCPY"><i class="fas fa-download"></i> Download</a>
                 </div>
             </div>
         </div>
 
         <!-- Categoria: Jogos -->
         <div class="cosmic-category">
-            <h2 class="category-title">Jogos</h2>
+            <h2 class="category-title"><i class="fas fa-gamepad"></i>Jogos <span class="download-count">3</span></h2>
             <div class="cosmic-items">
                 <div class="cosmic-item">
-                    <h3 class="item-title">Valorant</h3>
-                    <a href="https://valorant.secure.dyn.riotcdn.net/channels/public/x/installer/current/live.live.ap.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-crosshairs"></i>Valorant</h3>
+                    <p class="item-description">FPS tático 5v5 da Riot Games</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> Latest</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 65 MB</span>
+                    </div>
+                    <a href="https://valorant.secure.dyn.riotcdn.net/channels/public/x/installer/current/live.live.ap.exe" class="download-btn" data-name="Valorant"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">Clone Hero</h3>
-                    <a href="https://github.com/clonehero-game/releases/releases/download/V1.0.0.4080/CloneHero-win64.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-guitar"></i>Clone Hero</h3>
+                    <p class="item-description">Clone do Guitar Hero para PC</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v1.0.0.4080</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 180 MB</span>
+                    </div>
+                    <a href="https://github.com/clonehero-game/releases/releases/download/V1.0.0.4080/CloneHero-win64.exe" class="download-btn" data-name="Clone Hero"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">Epic Games Launcher</h3>
-                    <a href="https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi" class="download-btn">Download</a>
+                    <span class="file-type-badge msi">msi</span>
+                    <h3 class="item-title"><i class="fas fa-store"></i>Epic Games Launcher</h3>
+                    <p class="item-description">Plataforma de distribuição digital</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> Latest</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 25 MB</span>
+                    </div>
+                    <a href="https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi" class="download-btn" data-name="Epic Games Launcher"><i class="fas fa-download"></i> Download</a>
                 </div>
             </div>
         </div>
 
         <!-- Categoria: Utilitários -->
         <div class="cosmic-category">
-            <h2 class="category-title">Utilitários</h2>
+            <h2 class="category-title"><i class="fas fa-tools"></i>Utilitários <span class="download-count">8</span></h2>
             <div class="cosmic-items">
                 <div class="cosmic-item">
-                    <h3 class="item-title">WinRAR</h3>
-                    <a href="https://www.win-rar.com/postdownload.html?&L=0" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-archive"></i>WinRAR</h3>
+                    <p class="item-description">Compactador e descompactador de arquivos</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v6.24</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 3.2 MB</span>
+                    </div>
+                    <a href="https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x64-624ptbr.exe" class="download-btn" data-name="WinRAR"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">BitTorrent</h3>
-                    <a href="https://www.bittorrent.com/pt-br/downloads/complete/" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-download"></i>BitTorrent</h3>
+                    <p class="item-description">Cliente para download de torrents</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v7.11</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 2.8 MB</span>
+                    </div>
+                    <a href="https://download-new.bittorrent.com/endpoint/bittorrent/os/windows/track/stable/" class="download-btn" data-name="BitTorrent"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">Logitech G Hub</h3>
-                    <a href="https://download01.logi.com/web/ftp/pub/techsupport/gaming/lghub_installer.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-mouse"></i>Logitech G Hub</h3>
+                    <p class="item-description">Software para periféricos Logitech G</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> Latest</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 35 MB</span>
+                    </div>
+                    <a href="https://download01.logi.com/web/ftp/pub/techsupport/gaming/lghub_installer.exe" class="download-btn" data-name="Logitech G Hub"><i class="fas fa-download"></i> Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-hdd"></i>CrystalDiskInfo</h3>
+                    <p class="item-description">Monitoramento de saúde de discos rígidos</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v9.2.1</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 4.5 MB</span>
+                    </div>
+                    <a href="https://sourceforge.net/projects/crystaldiskinfo/files/latest/download" class="download-btn" data-name="CrystalDiskInfo"><i class="fas fa-download"></i> Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-tachometer-alt"></i>CrystalDiskMark</h3>
+                    <p class="item-description">Benchmark de desempenho de disco</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v9.0.4</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 3.2 MB</span>
+                    </div>
+                    <a href="https://sourceforge.net/projects/crystaldiskmark/files/latest/download" class="download-btn" data-name="CrystalDiskMark"><i class="fas fa-download"></i> Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-microchip"></i>CPU-Z</h3>
+                    <p class="item-description">Informações detalhadas sobre hardware</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v2.16</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 2.1 MB</span>
+                    </div>
+                    <a href="https://www.cpuid.com/downloads/cpu-z/cpu-z_2.16-en.exe" class="download-btn" data-name="CPU-Z"><i class="fas fa-download"></i> Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-thermometer-half"></i>HWMonitor</h3>
+                    <p class="item-description">Monitoramento de temperatura e voltagem</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v1.59</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 1.8 MB</span>
+                    </div>
+                    <a href="https://www.cpuid.com/downloads/hwmonitor/hwmonitor_1.59.exe" class="download-btn" data-name="HWMonitor"><i class="fas fa-download"></i> Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-sync-alt"></i>Driver Booster</h3>
+                    <p class="item-description">Atualização automática de drivers</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v11.4</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 45 MB</span>
+                    </div>
+                    <a href="https://www.iobit.com/downloadcenter.php?product=pt-driver-booster-free-new&insur=ptseo_dbfpdp','recommend/ascfree.php?name=driver_booster_free" class="download-btn" data-name="Driver Booster"><i class="fas fa-download"></i> Download</a>
                 </div>
             </div>
         </div>
 
         <!-- Categoria: Drivers e GPU -->
         <div class="cosmic-category">
-            <h2 class="category-title">Drivers e GPU</h2>
+            <h2 class="category-title"><i class="fas fa-microchip"></i>Drivers e GPU <span class="download-count">2</span></h2>
             <div class="cosmic-items">
                 <div class="cosmic-item">
-                    <h3 class="item-title">NVIDIA App</h3>
-                    <a href="https://us.download.nvidia.com/nvapp/client/11.0.4.159/NVIDIA_app_v11.0.4.159.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-desktop"></i>NVIDIA App</h3>
+                    <p class="item-description">Aplicativo unificado para GPUs NVIDIA</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v11.0.4.159</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 650 MB</span>
+                    </div>
+                    <a href="https://us.download.nvidia.com/nvapp/client/11.0.4.159/NVIDIA_app_v11.0.4.159.exe" class="download-btn" data-name="NVIDIA App"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">Driver GeForce 3070</h3>
-                    <a href="https://us.download.nvidia.com/Windows/576.88/576.88-desktop-win10-win11-64bit-international-dch-whql.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-video"></i>Driver GeForce 3070</h3>
+                    <p class="item-description">Driver para GeForce RTX 3070</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> 576.88</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 720 MB</span>
+                    </div>
+                    <a href="https://us.download.nvidia.com/Windows/576.88/576.88-desktop-win10-win11-64bit-international-dch-whql.exe" class="download-btn" data-name="Driver GeForce 3070"><i class="fas fa-download"></i> Download</a>
                 </div>
             </div>
         </div>
 
         <!-- Categoria: Utilitários Steam -->
         <div class="cosmic-category">
-            <h2 class="category-title">Utilitários Steam</h2>
+            <h2 class="category-title"><i class="fab fa-steam"></i>Utilitários Steam <span class="download-count">2</span></h2>
             <div class="cosmic-items">
                 <div class="cosmic-item">
-                    <h3 class="item-title">Idle Master Extended</h3>
-                    <a href="https://github.com/JonasNilson/idle_master_extended/releases/download/v1.10.0/idle_master_extended_v1.10.0.zip" class="download-btn">Download</a>
+                    <span class="file-type-badge zip">zip</span>
+                    <h3 class="item-title"><i class="fas fa-user-clock"></i>Idle Master Extended</h3>
+                    <p class="item-description">Aumenta horas jogadas nos jogos da Steam</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v1.10.0</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 2.5 MB</span>
+                    </div>
+                    <a href="https://github.com/JonasNilson/idle_master_extended/releases/download/v1.10.0/idle_master_extended_v1.10.0.zip" class="download-btn" data-name="Idle Master Extended"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">Steam</h3>
-                    <a href="https://cdn.fastly.steamstatic.com/client/installer/SteamSetup.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fab fa-steam"></i>Steam</h3>
+                    <p class="item-description">Plataforma de distribuição digital de jogos</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> Latest</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 2 MB</span>
+                    </div>
+                    <a href="https://cdn.fastly.steamstatic.com/client/installer/SteamSetup.exe" class="download-btn" data-name="Steam"><i class="fas fa-download"></i> Download</a>
                 </div>
             </div>
         </div>
 
         <!-- Categoria: VRChat e VR -->
         <div class="cosmic-category">
-            <h2 class="category-title">VRChat e Realidade Virtual</h2>
+            <h2 class="category-title"><i class="fas fa-vr-cardboard"></i>VRChat e Realidade Virtual <span class="download-count">3</span></h2>
             <div class="cosmic-items">
                 <div class="cosmic-item">
-                    <h3 class="item-title">VRChat Creator Companion</h3>
-                    <a href="https://vrchat.com/download/vcc" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-robot"></i>VRChat Creator Companion</h3>
+                    <p class="item-description">Ferramenta para criação de conteúdo no VRChat</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> Latest</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 85 MB</span>
+                    </div>
+                    <a href="https://vrchat.com/download/vcc" class="download-btn" data-name="VRChat Creator Companion"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">Unity 2022.3.22f1</h3>
-                    <a href="https://download.unity3d.com/download_unity/887be4894c44/Windows64EditorInstaller/UnitySetup64-2022.3.22f1.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-cube"></i>Unity 2022.3.22f1</h3>
+                    <p class="item-description">Motor de jogo para desenvolvimento 3D</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> 2022.3.22f1</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 1.2 GB</span>
+                    </div>
+                    <a href="https://download.unity3d.com/download_unity/887be4894c44/Windows64EditorInstaller/UnitySetup64-2022.3.22f1.exe" class="download-btn" data-name="Unity 2022.3.22f1"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">OpenVR Advanced Settings</h3>
-                    <a href="https://github.com/OpenVR-Advanced-Settings/OpenVR-AdvancedSettings/releases/download/v3.4.1/OpenVR-AdvancedSettings-v3.4.1.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-sliders-h"></i>OpenVR Advanced Settings</h3>
+                    <p class="item-description">Configurações avançadas para headsets VR</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v3.4.1</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 12 MB</span>
+                    </div>
+                    <a href="https://github.com/OpenVR-Advanced-Settings/OpenVR-AdvancedSettings/releases/download/v3.4.1/OpenVR-AdvancedSettings-v3.4.1.exe" class="download-btn" data-name="OpenVR Advanced Settings"><i class="fas fa-download"></i> Download</a>
                 </div>
             </div>
         </div>
 
         <!-- Categoria: Booth VRM -->
         <div class="cosmic-category">
-            <h2 class="category-title"><i class="fas fa-store category-icon"></i>Booth VRM</h2>
+            <h2 class="category-title"><i class="fas fa-store"></i>Booth VRM <span class="download-count">4</span></h2>
             <div class="cosmic-items">
                 <div class="cosmic-item">
-                    <h3 class="item-title"><i class="fas fa-robot item-icon"></i>Modelo Anime VRM 1</h3>
+                    <span class="file-type-badge zip">zip</span>
+                    <h3 class="item-title"><i class="fas fa-robot"></i>Modelo Anime VRM 1</h3>
                     <p class="item-description">Avatar estilo anime com expressões faciais completas e texturas HD.</p>
-                    <a href="https://booth.pm/downloadables/4141652?_gl=1*nhu2zb*_ga*OTE5MTM0NDcuMTc1MjE5NzIzMQ..*_ga_RWT2QKJLDC*czE3NTU0MDEyNTQkbzQkZzEkdDE3NTU0MDEzOTUkajQzJGwwJGgw" class="download-btn"><i class="fas fa-download"></i> Download</a>
-                    <div class="file-info">
-                        <span class="file-size"><i class="fas fa-database"></i> 45 MB</span>
-                        <span class="file-type"><i class="fas fa-file-archive"></i> .zip</span>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v1.2</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 45 MB</span>
                     </div>
+                    <a href="https://booth.pm/downloadables/4141652?_gl=1*nhu2zb*_ga*OTE5MTM0NDcuMTc1MjE5NzIzMQ..*_ga_RWT2QKJLDC*czE3NTU0MDEyNTQkbzQkZzEkdDE3NTU0MDEzOTUkajQzJGwwJGgw" class="download-btn" data-name="Modelo Anime VRM 1"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title"><i class="fas fa-user-astronaut item-icon"></i>Modelo Futurista VRM 2</h3>
+                    <span class="file-type-badge zip">zip</span>
+                    <h3 class="item-title"><i class="fas fa-user-astronaut"></i>Modelo Futurista VRM 2</h3>
                     <p class="item-description">Avatar com design cyberpunk e efeitos de shader especiais.</p>
-                    <a href="https://booth.pm/downloadables/3527070?_gl=1*1t8ztk8*_ga*OTE5MTM0NDcuMTc1MjE5NzIzMQ..*_ga_RWT2QKJLDC*czE3NTU0MDEyNTQkbzQkZzEkdDE3NTU0MDE0NTYkajYwJGwwJGgw" class="download-btn"><i class="fas fa-download"></i> Download</a>
-                    <div class="file-info">
-                        <span class="file-size"><i class="fas fa-database"></i> 68 MB</span>
-                        <span class="file-type"><i class="fas fa-file-archive"></i> .zip</span>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v2.1</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 68 MB</span>
                     </div>
+                    <a href="https://booth.pm/downloadables/3527070?_gl=1*1t8ztk8*_ga*OTE5MTM0NDcuMTc1MjE5NzIzMQ..*_ga_RWT2QKJLDC*czE3NTU0MDEyNTQkbzQkZzEkdDE3NTU0MDE0NTYkajYwJGwwJGgw" class="download-btn" data-name="Modelo Futurista VRM 2"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title"><i class="fas fa-cat item-icon"></i>Modelo Kemono VRM 3</h3>
+                    <span class="file-type-badge zip">zip</span>
+                    <h3 class="item-title"><i class="fas fa-cat"></i>Modelo Kemono VRM 3</h3>
                     <p class="item-description">Avatar estilo kemono com orelhas e cauda animáveis.</p>
-                    <a href="https://booth.pm/downloadables/3231457?_gl=1*llh16f*_ga*OTE5MTM0NDcuMTc1MjE5NzIzMQ..*_ga_RWT2QKJLDC*czE3NTU0MDEyNTQkbzQkZzEkdDE3NTU0MDE3ODgkajM4JGwwJGgw" class="download-btn"><i class="fas fa-download"></i> Download</a>
-                    <div class="file-info">
-                        <span class="file-size"><i class="fas fa-database"></i> 52 MB</span>
-                        <span class="file-type"><i class="fas fa-file-archive"></i> .zip</span>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v1.5</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 52 MB</span>
                     </div>
+                    <a href="https://booth.pm/downloadables/3231457?_gl=1*llh16f*_ga*OTE5MTM0NDcuMTc1MjE5NzIzMQ..*_ga_RWT2QKJLDC*czE3NTU0MDEyNTQkbzQkZzEkdDE3NTU0MDE3ODgkajM4JGwwJGgw" class="download-btn" data-name="Modelo Kemono VRM 3"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title"><i class="fas fa-dragon item-icon"></i>Booth VRM Original</h3>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-dragon"></i>Booth VRM Original</h3>
                     <p class="item-description">Editor de modelos 3D VRM para criação de avatares personalizados.</p>
-                    <a href="https://booth.pm/downloadables/2412689?_gl=1*medy3c*_ga*OTg3OTAzMDEzLjE3NDk5MTg3NDA.*_ga_RWT2QKJLDC*czE3NTE4OTg4NDgkbzYkZzAkdTE3NTE4OTg4NTQkajU0JGwwJGgw" class="download-btn"><i class="fas fa-download"></i> Download</a>
-                    <div class="file-info">
-                        <span class="file-size"><i class="fas fa-database"></i> 120 MB</span>
-                        <span class="file-type"><i class="fas fa-file-excel"></i> .exe</span>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v3.2</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 120 MB</span>
                     </div>
+                    <a href="https://booth.pm/downloadables/2412689?_gl=1*medy3c*_ga*OTg3OTAzMDEzLjE3NDk5MTg3NDA.*_ga_RWT2QKJLDC*czE3NTE4OTg4NDgkbzYkZzAkdTE3NTE4OTg4NTQkajU0JGwwJGgw" class="download-btn" data-name="Booth VRM Original"><i class="fas fa-download"></i> Download</a>
                 </div>
             </div>
         </div>
-        
+
         <!-- Categoria: Rastreamento Facial -->
         <div class="cosmic-category">
-            <h2 class="category-title">Rastreamento Facial</h2>
+            <h2 class="category-title"><i class="fas fa-user"></i>Rastreamento Facial <span class="download-count">3</span></h2>
             <div class="cosmic-items">
                 <div class="cosmic-item">
-                    <h3 class="item-title">Opentrack</h3>
-                    <a href="https://github.com/opentrack/opentrack/releases/download/opentrack-2022.3.0/opentrack-2022.3.0-win32-setup.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-head-side-vision"></i>Opentrack</h3>
+                    <p class="item-description">Software de rastreamento de cabeça para jogos</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> 2022.3.0</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 8 MB</span>
+                    </div>
+                    <a href="https://github.com/opentrack/opentrack/releases/download/opentrack-2022.3.0/opentrack-2022.3.0-win32-setup.exe" class="download-btn" data-name="Opentrack"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">AITrack</h3>
-                    <a href="https://github.com/AIRLegend/aitrack/releases/download/v0.7.1-alpha/aitrack-v0.7.1.zip" class="download-btn">Download</a>
+                    <span class="file-type-badge zip">zip</span>
+                    <h3 class="item-title"><i class="fas fa-eye"></i>AITrack</h3>
+                    <p class="item-description">Rastreamento facial baseado em IA</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v0.7.1-alpha</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 15 MB</span>
+                    </div>
+                    <a href="https://github.com/AIRLegend/aitrack/releases/download/v0.7.1-alpha/aitrack-v0.7.1.zip" class="download-btn" data-name="AITrack"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">Project Babble</h3>
-                    <a href="https://github.com/Project-Babble/ProjectBabble/releases/download/v2.0.7/Project_Babble-Setup.2.0.7.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-comment-dots"></i>Project Babble</h3>
+                    <p class="item-description">Rastreamento facial e labial para animação</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> v2.0.7</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 45 MB</span>
+                    </div>
+                    <a href="https://github.com/Project-Babble/ProjectBabble/releases/download/v2.0.7/Project_Babble-Setup.2.0.7.exe" class="download-btn" data-name="Project Babble"><i class="fas fa-download"></i> Download</a>
                 </div>
             </div>
         </div>
 
         <!-- Categoria: Comunicação -->
         <div class="cosmic-category">
-            <h2 class="category-title">Comunicação</h2>
+            <h2 class="category-title"><i class="fas fa-comments"></i>Comunicação <span class="download-count">2</span></h2>
             <div class="cosmic-items">
                 <div class="cosmic-item">
-                    <h3 class="item-title">Vencord</h3>
-                    <a href="https://github.com/Vencord/Installer/releases/latest/download/VencordInstaller.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fab fa-discord"></i>Vencord</h3>
+                    <p class="item-description">Cliente Discord modificado com plugins</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> Latest</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 85 MB</span>
+                    </div>
+                    <a href="https://github.com/Vencord/Installer/releases/latest/download/VencordInstaller.exe" class="download-btn" data-name="Vencord"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">Discord</h3>
-                    <a href="https://discord.com/api/downloads/distributions/app/installers/latest?channel=stable&platform=win&arch=x64" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fab fa-discord"></i>Discord</h3>
+                    <p class="item-description">Aplicativo de comunicação por voz e texto</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> Latest</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 65 MB</span>
+                    </div>
+                    <a href="https://discord.com/api/downloads/distributions/app/installers/latest?channel=stable&platform=win&arch=x64" class="download-btn" data-name="Discord"><i class="fas fa-download"></i> Download</a>
                 </div>
             </div>
         </div>
 
         <!-- Categoria: Navegadores -->
         <div class="cosmic-category">
-            <h2 class="category-title">Navegadores</h2>
+            <h2 class="category-title"><i class="fas fa-globe"></i>Navegadores <span class="download-count">4</span></h2>
             <div class="cosmic-items">
                 <div class="cosmic-item">
-                    <h3 class="item-title">Google Chrome</h3>
-                    <a href="https://www.google.com/intl/pt-BR/chrome/" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fab fa-chrome"></i>Google Chrome</h3>
+                    <p class="item-description">Navegador web rápido e seguro do Google</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> Latest</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 1.2 MB</span>
+                    </div>
+                    <a href="https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B807F585A-3BF9-3D74-A8F5-6B5D4769E9A8%7D%26lang%3Dpt-br%26browser%3D4%26usagestats%3D1%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable-statsdef_2%26installdataindex%3Dempty/chrome/install/ChromeStandaloneSetup64.exe" class="download-btn" data-name="Google Chrome"><i class="fas fa-download"></i> Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fab fa-firefox"></i>Mozilla Firefox</h3>
+                    <p class="item-description">Navegador de código aberto focado em privacidade</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> Latest</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 55 MB</span>
+                    </div>
+                    <a href="https://www.firefox.com/pt-BR/thanks/" class="download-btn" data-name="Mozilla Firefox"><i class="fas fa-download"></i> Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-user-secret"></i>Tor Browser</h3>
+                    <p class="item-description">Navegador focado em privacidade e anonimato</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> 14.5.7</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 120 MB</span>
+                    </div>
+                    <a href="https://www.torproject.org/dist/torbrowser/14.5.7/tor-browser-windows-x86_64-portable-14.5.7.exe" class="download-btn" data-name="Tor Browser"><i class="fas fa-download"></i> Download</a>
+                </div>
+                <div class="cosmic-item">
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-shield-alt"></i>Brave Browser</h3>
+                    <p class="item-description">Navegador focado em privacidade com bloqueador de anúncios</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> Latest</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 85 MB</span>
+                    </div>
+                    <a href="https://laptop-updates.brave.com/download/BRV010?bitness=64" class="download-btn" data-name="Brave Browser"><i class="fas fa-download"></i> Download</a>
                 </div>
             </div>
         </div>
 
         <!-- Categoria: Desenvolvimento -->
         <div class="cosmic-category">
-            <h2 class="category-title">Desenvolvimento</h2>
+            <h2 class="category-title"><i class="fas fa-code"></i>Desenvolvimento <span class="download-count">3</span></h2>
             <div class="cosmic-items">
                 <div class="cosmic-item">
-                    <h3 class="item-title">Visual Studio Code</h3>
-                    <a href="https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fas fa-code"></i>Visual Studio Code</h3>
+                    <p class="item-description">Editor de código fonte da Microsoft</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> Latest</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 85 MB</span>
+                    </div>
+                    <a href="https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user" class="download-btn" data-name="Visual Studio Code"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">Java</h3>
-                    <a href="https://javadl.oracle.com/webapps/download/AutoDL?xd_co_f=OTQxNGZiMTEtZWU0OS00ZjY5LWExOGQtNzA2ZDBiNDdlYTk4&BundleId=252322_68ce765258164726922591683c51982c" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fab fa-java"></i>Java</h3>
+                    <p class="item-description">Plataforma de desenvolvimento Java</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> Latest</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 165 MB</span>
+                    </div>
+                    <a href="https://javadl.oracle.com/webapps/download/AutoDL?xd_co_f=OTQxNGZiMTEtZWU0OS00ZjY5LWExOGQtNzA2ZDBiNDdlYTk4&BundleId=252322_68ce765258164726922591683c51982c" class="download-btn" data-name="Java"><i class="fas fa-download"></i> Download</a>
                 </div>
                 <div class="cosmic-item">
-                    <h3 class="item-title">Python 3.13.5</h3>
-                    <a href="https://www.python.org/ftp/python/3.13.5/python-3.13.5-amd64.exe" class="download-btn">Download</a>
+                    <span class="file-type-badge exe">exe</span>
+                    <h3 class="item-title"><i class="fab fa-python"></i>Python 3.13.5</h3>
+                    <p class="item-description">Linguagem de programação Python</p>
+                    <div class="item-meta">
+                        <span class="item-version"><i class="fas fa-tag"></i> 3.13.5</span>
+                        <span class="item-size"><i class="fas fa-database"></i> 25 MB</span>
+                    </div>
+                    <a href="https://www.python.org/ftp/python/3.13.5/python-3.13.5-amd64.exe" class="download-btn" data-name="Python 3.13.5"><i class="fas fa-download"></i> Download</a>
                 </div>
             </div>
         </div>
-    </div>
-</body>
 
+        <!-- Footer -->
+        <div class="cosmic-footer">
+            <p>Cosmic Downloads &copy; 2025 - Todos os direitos reservados</p>
+            <p>Os programas são de propriedade de seus respectivos desenvolvedores</p>
+        </div>
+    </div>
+
+    <script>
+        // Criar efeito de estrelas
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 150;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Posição aleatória
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Tamanho aleatório
+                const size = Math.random() * 3;
+                
+                // Duração da animação aleatória
+                const duration = 3 + Math.random() * 7;
+                
+                // Atraso aleatório
+                const delay = Math.random() * 5;
+                
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.animationDuration = `${duration}s`;
+                star.style.animationDelay = `${delay}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Função de busca
+        function setupSearch() {
+            const searchBar = document.getElementById('searchBar');
+            
+            searchBar.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase().trim();
+                const items = document.querySelectorAll('.cosmic-item');
+                const categories = document.querySelectorAll('.cosmic-category:not(.recent-downloads)');
+                
+                let hasVisibleItems = false;
+                
+                items.forEach(item => {
+                    const title = item.querySelector('.item-title').textContent.toLowerCase();
+                    const description = item.querySelector('.item-description').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                        item.classList.remove('hidden');
+                        hasVisibleItems = true;
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+                
+                // Mostrar/ocultar categorias baseado nos itens visíveis
+                categories.forEach(category => {
+                    const visibleItems = category.querySelectorAll('.cosmic-item:not(.hidden)');
+                    if (visibleItems.length > 0) {
+                        category.classList.remove('hidden');
+                    } else {
+                        category.classList.add('hidden');
+                    }
+                });
+            });
+        }
+
+        // Botão Voltar ao Topo
+        function setupBackToTop() {
+            const backToTopBtn = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // Notificação de Download
+        function setupDownloadNotifications() {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            const downloadButtons = document.querySelectorAll('.download-btn');
+            
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const appName = this.getAttribute('data-name');
+                    notificationText.textContent = `Iniciando download de ${appName}...`;
+                    
+                    // Mostrar notificação
+                    notification.classList.add('show');
+                    
+                    // Ocultar notificação após 3 segundos
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 3000);
+                });
+            });
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            setupSearch();
+            setupBackToTop();
+            setupDownloadNotifications();
+        });
+    </script>
+</body>
 </html>
